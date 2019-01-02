@@ -14,5 +14,10 @@ app idea:
 - list them by highest or by lowest rate 
 
 we will use in the app the following : 
-- TDD approch
-- then for sure Unit testing 
+- TDD approach
+- Unit testing (for sure)
+- RecyclerView 
+- RXJava 
+- MVVM 
+- Room 
+- Data Binding
