@@ -1,13 +1,16 @@
-package com.sattar.myfavorites;
+package com.sattar.myfavorites.Models;
+
+import io.realm.RealmObject;
+
 /**
  * Created by Sattar on 4-1-2019
  */
-public class Movie {
+public class Movie extends RealmObject {
 
-    String name;
-    String description;
-    double rate;
-    int imagePath;
+    private String name;
+    private String description;
+    private double rate;
+    private String imagePath;
 
     public String getName() {
         return name;
@@ -33,11 +36,11 @@ public class Movie {
         this.rate = rate;
     }
 
-    public int getImagePath() {
+    public String getImagePath() {
         return imagePath;
     }
 
-    public void setImagePath(int imagePath) {
+    public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 }

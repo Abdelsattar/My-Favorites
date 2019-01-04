@@ -3,7 +3,7 @@ package com.sattar.myfavorites.Views.Activites;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.sattar.myfavorites.Movie;
+import com.sattar.myfavorites.Models.Movie;
 import com.sattar.myfavorites.R;
 import com.sattar.myfavorites.Views.Adapters.MoviesRecyclerViewAdapter;
 
