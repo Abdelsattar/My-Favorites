@@ -1,12 +1,15 @@
 package com.sattar.myfavorites.Models;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Sattar on 4-1-2019
  */
 public class Movie extends RealmObject {
 
+    @PrimaryKey
+    private String id;
     private String name;
     private String description;
     private double rate;

@@ -35,7 +35,12 @@ public class MoviesRepositoryTest {
 
     @Test
     public void insertMovies() {
-        repository.insertMovies(new Movie());
+        repository.insertMovies(
+                testRealm,
+                "X-Men",
+                "a science fiction movie",
+                "url",
+                8.6);
 
         //verify that the movies already inserted
         Assert.assertEquals(1,testRealm.where(Movie.class).findAll().size());
