@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".Views.Activites.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
+    <com.sattar.myfavorites.Views.CustomViews.AutofitRecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rvMovies"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:padding="@dimen/item_margin"
+        android:columnWidth="@dimen/column_width"
+        android:clipToPadding="false"/>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

@@ -31,4 +31,8 @@ public class MovieRepository {
         List<Movie> moviesList = realm.where(Movie.class).findAll();
         return moviesList != null ? moviesList : new ArrayList<>();
     }
+
+    boolean isThereMovies(Realm realm) {
+        return realm.isEmpty();
+    }
 }

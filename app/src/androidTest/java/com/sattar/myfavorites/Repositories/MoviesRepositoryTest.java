@@ -1,7 +1,5 @@
 package com.sattar.myfavorites.Repositories;
 
-import android.support.test.InstrumentationRegistry;
-
 import com.sattar.myfavorites.Helpers.Utils;
 import com.sattar.myfavorites.Models.Movie;
 
@@ -9,10 +7,17 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
+/**
+ * Created by Sattar on 4-1-2019
+ */
+@RunWith(AndroidJUnit4.class)
 public class MoviesRepositoryTest {
 
     private MovieRepository repository;
@@ -65,16 +70,19 @@ public class MoviesRepositoryTest {
             movie.setDescription("a science fiction movie");
             movie.setImagePath("url");
             movie.setRate(8.7);
+
             Movie movie2 = testRealm.createObject(Movie.class, Utils.generateUID());
             movie2.setName("X-Men");
             movie2.setDescription("a science fiction movie");
             movie2.setImagePath("url");
             movie2.setRate(8.7);
+
             Movie movie3 = testRealm.createObject(Movie.class, Utils.generateUID());
             movie3.setName("X-Men");
             movie3.setDescription("a science fiction movie");
             movie3.setImagePath("url");
             movie3.setRate(8.7);
+
             Movie movie4 = testRealm.createObject(Movie.class, Utils.generateUID());
             movie4.setName("X-Men");
             movie4.setDescription("a science fiction movie");
