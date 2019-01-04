@@ -3,6 +3,8 @@ package com.sattar.myfavorites.Repositories;
 import com.sattar.myfavorites.Helpers.Utils;
 import com.sattar.myfavorites.Models.Movie;
 
+import java.util.List;
+
 import io.realm.Realm;
 
 /**
@@ -22,5 +24,10 @@ public class MovieRepository {
             movie.setRate(rate);
         });
 
+    }
+
+    List<Movie> getAllMovies(Realm realm){
+
+        return null;
     }
 }
