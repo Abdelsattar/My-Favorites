@@ -13,10 +13,10 @@ import io.realm.Realm;
  */
 public class MovieRepository {
 
-    MovieRepository() {
+    public MovieRepository() {
     }
 
-    void insertMovies(Realm mRealm, String name, String description, String imagePath, double rate) {
+    public void insertMovies(Realm mRealm, String name, String description, String imagePath, double rate) {
         mRealm.executeTransaction(realm -> {
             Movie movie = mRealm.createObject(Movie.class, Utils.generateUID());
             movie.setName(name);
@@ -27,12 +27,12 @@ public class MovieRepository {
 
     }
 
-    List<Movie> getAllMovies(Realm realm) {
+    public List<Movie> getAllMovies(Realm realm) {
         List<Movie> moviesList = realm.where(Movie.class).findAll();
         return moviesList != null ? moviesList : new ArrayList<>();
     }
 
-    boolean isThereMovies(Realm realm) {
+    public boolean isThereMovies(Realm realm) {
         return realm.isEmpty();
     }
 }

@@ -4,7 +4,6 @@ import com.sattar.myfavorites.Helpers.Utils;
 import com.sattar.myfavorites.Models.Movie;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +12,10 @@ import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Sattar on 4-1-2019
@@ -51,14 +54,14 @@ public class MoviesRepositoryTest {
                 8.6);
 
         //verify that the movies already inserted
-        Assert.assertEquals(1, testRealm.where(Movie.class).findAll().size());
+        assertEquals(1, testRealm.where(Movie.class).findAll().size());
     }
 
     @Test
     public void getAllMovies_EmptyDB() {
 
         //verify that the movies already inserted
-        Assert.assertEquals(0, repository.getAllMovies(testRealm).size());
+        assertEquals(0, repository.getAllMovies(testRealm).size());
     }
 
     @Test
@@ -92,6 +95,25 @@ public class MoviesRepositoryTest {
         });
 
         //verify that the movies already inserted
-        Assert.assertEquals(4, repository.getAllMovies(testRealm).size());
+        assertEquals(4, repository.getAllMovies(testRealm).size());
     }
+
+
+    @Test
+    public void isThereMovies_EmptyDB() {
+        assertTrue(testRealm.isEmpty());
+    }
+
+    @Test
+    public void isThereMovies() {
+        testRealm.executeTransaction(realm -> {
+            Movie movie = testRealm.createObject(Movie.class, Utils.generateUID());
+            movie.setName("X-Men");
+            movie.setDescription("a science fiction movie");
+            movie.setImagePath("url");
+            movie.setRate(8.7);
+        });
+        assertFalse(testRealm.isEmpty());
+    }
+
 }

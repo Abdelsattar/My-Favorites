@@ -4,18 +4,17 @@ import android.os.Bundle;
 
 import com.sattar.myfavorites.Models.Movie;
 import com.sattar.myfavorites.R;
+import com.sattar.myfavorites.ViewModels.MainActivityViewModel;
 import com.sattar.myfavorites.Views.Adapters.MoviesRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-//import android.support.v7.app.AppCompatActivity;
-//import android.support.v7.widget.RecyclerView;
 
 /**
  * Created by Sattar on 2-1-2019
@@ -26,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvMovies;
 
     MoviesRecyclerViewAdapter recyclerViewAdapter;
+    MainActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void initScreen(){
+        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+//        MyViewModel model = ViewModelProviders.of(this).get(MyViewModel.class);
+
         recyclerViewAdapter = new MoviesRecyclerViewAdapter();
         setUpMoviesRecyclerViewAdapter(new ArrayList<>());
     }
