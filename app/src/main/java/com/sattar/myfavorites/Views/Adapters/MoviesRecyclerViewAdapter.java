@@ -2,6 +2,10 @@ package com.sattar.myfavorites.Views.Adapters;
 
 import android.view.ViewGroup;
 
+import com.sattar.myfavorites.Models.Movie;
+
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter {
 
-    public MoviesRecyclerViewAdapter() {
+    List<Movie> mMoviesList;
 
+    public MoviesRecyclerViewAdapter(List<Movie> moviesList) {
+        mMoviesList = moviesList;
     }
 
     @NonNull
@@ -27,6 +33,11 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mMoviesList != null ? mMoviesList.size() : 0;
+    }
+
+    public void updateData(List<Movie> movieList) {
+        mMoviesList = movieList;
+        notifyDataSetChanged();
     }
 }

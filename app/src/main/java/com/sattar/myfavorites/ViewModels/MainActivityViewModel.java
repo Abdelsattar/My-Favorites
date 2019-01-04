@@ -7,6 +7,8 @@ import com.sattar.myfavorites.Helpers.Utils;
 import com.sattar.myfavorites.Models.Movie;
 import com.sattar.myfavorites.Repositories.MovieRepository;
 
+import java.util.List;
+
 import androidx.lifecycle.ViewModel;
 import io.realm.Realm;
 
@@ -15,16 +17,16 @@ import io.realm.Realm;
  */
 public class MainActivityViewModel extends ViewModel {
 
-    private MovieRepository repository;
+    private MovieRepository movieRepository;
     private Realm mRealm;
 
     MainActivityViewModel() {
         if (mRealm == null)
             return;
         mRealm = Realm.getDefaultInstance();
-        repository = new MovieRepository();
+        movieRepository = new MovieRepository();
 
-        if (!repository.isThereMovies(mRealm)) {
+        if (!movieRepository.isThereMovies(mRealm)) {
             initDBWithData();
         }
     }
@@ -58,4 +60,7 @@ public class MainActivityViewModel extends ViewModel {
         });
     }
 
+    public List<Movie> getALlMovies(){
+        return movieRepository.getAllMovies(mRealm);
+    }
 }

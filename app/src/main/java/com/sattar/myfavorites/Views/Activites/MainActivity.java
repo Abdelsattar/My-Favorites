@@ -36,18 +36,21 @@ public class MainActivity extends AppCompatActivity {
         initScreen();
     }
 
-    void initScreen(){
+    void initScreen() {
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
-//        MyViewModel model = ViewModelProviders.of(this).get(MyViewModel.class);
 
-        recyclerViewAdapter = new MoviesRecyclerViewAdapter();
-        setUpMoviesRecyclerViewAdapter(new ArrayList<>());
+        setUpMoviesRecyclerViewAdapter();
+        updateRecyclerViewData(viewModel.getALlMovies());
     }
 
 
-    void setUpMoviesRecyclerViewAdapter(List<Movie> movies) {
-
+    void setUpMoviesRecyclerViewAdapter() {
+        recyclerViewAdapter = new MoviesRecyclerViewAdapter(new ArrayList<>());
         rvMovies.setHasFixedSize(true);
         rvMovies.setAdapter(recyclerViewAdapter);
+    }
+
+    void updateRecyclerViewData(List<Movie> movieList) {
+        recyclerViewAdapter.updateData(movieList);
     }
 }
