@@ -6,13 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".Views.Activites.MainActivity">
 
-    <com.sattar.myfavorites.Views.CustomViews.AutofitRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/rvMovies"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/item_margin"
-        android:columnWidth="@dimen/column_width"
         android:clipToPadding="false"/>
 
 </RelativeLayout>
