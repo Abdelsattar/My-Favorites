@@ -3,6 +3,7 @@ package com.sattar.myfavorites.Repositories;
 import com.sattar.myfavorites.Helpers.Utils;
 import com.sattar.myfavorites.Models.Movie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -15,7 +16,7 @@ public class MovieRepository {
     MovieRepository() {
     }
 
-    void insertMovies(Realm mRealm,String name, String description, String imagePath, double rate) {
+    void insertMovies(Realm mRealm, String name, String description, String imagePath, double rate) {
         mRealm.executeTransaction(realm -> {
             Movie movie = mRealm.createObject(Movie.class, Utils.generateUID());
             movie.setName(name);
@@ -26,8 +27,8 @@ public class MovieRepository {
 
     }
 
-    List<Movie> getAllMovies(Realm realm){
-
-        return null;
+    List<Movie> getAllMovies(Realm realm) {
+        List<Movie> moviesList = realm.where(Movie.class).findAll();
+        return moviesList != null ? moviesList : new ArrayList<>();
     }
 }
