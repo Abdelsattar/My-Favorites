@@ -1,7 +1,10 @@
 package com.sattar.myfavorites.Views.Activites;
 
 import android.os.Bundle;
+import android.util.Log;
 
+import com.sattar.myfavorites.Helpers.MyFavoritesApp;
+import com.sattar.myfavorites.Helpers.Utils;
 import com.sattar.myfavorites.Models.Movie;
 import com.sattar.myfavorites.R;
 import com.sattar.myfavorites.ViewModels.MainActivityViewModel;
@@ -12,9 +15,11 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 /**
  * Created by Sattar on 2-1-2019
@@ -32,13 +37,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        Realm.init(getApplicationContext());
         initScreen();
     }
 
     void initScreen() {
+        MyFavoritesApp app= (MyFavoritesApp) getApplication();
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
-
+        viewModel.init(app.getResourceProvider());
         setUpMoviesRecyclerViewAdapter();
         updateRecyclerViewData(viewModel.getALlMovies());
     }
@@ -48,9 +54,11 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewAdapter = new MoviesRecyclerViewAdapter(new ArrayList<>());
         rvMovies.setHasFixedSize(true);
         rvMovies.setAdapter(recyclerViewAdapter);
+        rvMovies.setLayoutManager(new GridLayoutManager(this, Utils.calculateNoOfColumns(this)));
     }
 
     void updateRecyclerViewData(List<Movie> movieList) {
+        Log.e("Movie lIst", movieList.size() + " ");
         recyclerViewAdapter.updateData(movieList);
     }
 }

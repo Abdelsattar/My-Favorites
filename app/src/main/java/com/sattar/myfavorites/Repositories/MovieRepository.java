@@ -33,6 +33,6 @@ public class MovieRepository {
     }
 
     public boolean isThereMovies(Realm realm) {
-        return realm.isEmpty();
+        return !realm.isEmpty();
     }
 }

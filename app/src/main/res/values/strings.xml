@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">My Favorites</string>
+    <string name="txt_coco_description">Aspiring musician Miguel, confronted with his family\'s ancestral ban on music, enters the Land of the Dead to find his great-great-grandfather, a legendary singer.</string>
+    <string name="txt_coco">Coco</string>
+    <string name="txt_2017">2017</string>
+    <string name="txt_dead_pool_description">A fast-talking mercenary with a morbid sense of humor is subjected to a rogue experiment that leaves him with accelerated healing powers and a quest for revenge.</string>
+    <string name="txt_deadpool">DEADPOOL</string>
+    <string name="txt_2016">2016</string>
+    <string name="txt_harry_potter">Harry Potter</string>
+    <string name="txt_harry_potter_description">It\'s Harry\'s third year at Hogwarts; not only does he have a new \"Defense Against the Dark Arts\" teacher, but there is also trouble brewing. Convicted murderer Sirius Black has escaped the Wizards\' Prison and is coming after Harry.</string>
+    <string name="txt_2014">2014</string>
+    <string name="txt_home_alone">Home Alone</string>
+    <string name="txt_home_alone_description">An eight-year-old troublemaker must protect his house from a pair of burglars when he is accidentally left home alone by his family during Christmas vacation.</string>
+    <string name="txt_1990">1990</string>
+    <string name="txt_incredible">Incredibles 2</string>
+    <string name="txt_incredible_description">The Incredibles hero family takes on a new mission, which involves a change in family roles: Bob Parr (Mr Incredible) must manage the house while his wife Helen (Elastigirl) goes out to save the world.</string>
+    <string name="txt_2018">2018</string>
+    <string name="txt_the_greatest_description">Celebrates the birth of show business and tells of a visionary who rose from nothing to create a spectacle that became a worldwide sensation.</string>
+    <string name="txt_the_greatest">The Greatest Showman</string>
+    <string name="txt_the_mountin_description">Stranded after a tragic plane crash, two strangers must forge a connection to survive the extreme elements of a remote snow-covered mountain. When they realize help is not coming, they embark on a perilous journey across the wilderness.</string>
+    <string name="txt_the_mountin">The Mountain Between Us</string>
+    <string name="txt_xen">X-Men: Days of Future Past</string>
+    <string name="txt_xmen_description">The X-Men send Wolverine to the past in a desperate effort to change history and prevent an event that results in doom for both humans and mutants.</string>
+    <string name="txt_john_wick">John Wick</string>
+    <string name="txt_john_wick_description">An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him.</string>
 </resources>

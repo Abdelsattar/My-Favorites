@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
     <dimen name="item_margin">8dp</dimen>
     <dimen name="column_width">80dp</dimen>
+    <dimen name="row_padding_vertical">10dp</dimen>
+
+    <dimen name="card_margin">5dp</dimen>
+    <dimen name="card_movie_radius">0dp</dimen>
+    <dimen name="movie_cover_height">180dp</dimen>
+    <dimen name="movie_name_padding">10dp</dimen>
+
+    <dimen name="movie_name">15sp</dimen>
+    <dimen name="movie_name_padding_bottom">5dp</dimen>
+    <dimen name="movie_year">12sp</dimen>
 </resources>

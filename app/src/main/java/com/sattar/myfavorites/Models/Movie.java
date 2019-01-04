@@ -14,6 +14,8 @@ public class Movie extends RealmObject {
     private String description;
     private double rate;
     private String imagePath;
+    private Integer imageId;
+    private String year;
 
     public String getName() {
         return name;
@@ -45,5 +47,21 @@ public class Movie extends RealmObject {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public Integer getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Integer imageId) {
+        this.imageId = imageId;
     }
 }
