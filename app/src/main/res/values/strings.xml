@@ -22,11 +22,14 @@
     <string name="txt_the_greatest">The Greatest Showman</string>
     <string name="txt_the_mountin_description">Stranded after a tragic plane crash, two strangers must forge a connection to survive the extreme elements of a remote snow-covered mountain. When they realize help is not coming, they embark on a perilous journey across the wilderness.</string>
     <string name="txt_the_mountin">The Mountain Between Us</string>
+
     <string name="txt_xen">X-Men: Days of Future Past</string>
     <string name="txt_xmen_description">The X-Men send Wolverine to the past in a desperate effort to change history and prevent an event that results in doom for both humans and mutants.</string>
     <string name="txt_john_wick">John Wick</string>
     <string name="txt_john_wick_description">An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him.</string>
     <string name="txt_order_highest">Order Highest to lowest</string>
     <string name="txt_order_lowest">Order lowest to Highest</string>
+    <string name="txt_rate">Rate </string>
+    <string name="txt_message_rating">you rated %s %s</string>
 
 </resources>

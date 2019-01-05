@@ -23,15 +23,22 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
 
     private List<Movie> mMoviesList;
 
-    public MoviesRecyclerViewAdapter( List<Movie> moviesList) {
+    public interface ClickListener {
+        void onRateClicked(View view, int pos);
+    }
+
+    ClickListener mClickListener;
+
+    public MoviesRecyclerViewAdapter(List<Movie> moviesList, ClickListener clickListener) {
         mMoviesList = moviesList;
+        mClickListener = clickListener;
     }
 
     @NonNull
     @Override
     public MovieHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.movie_list_row, parent, false);
+                .inflate(R.layout.list_item_movie, parent, false);
 
         return new MovieHolder(itemView);
     }
@@ -41,9 +48,9 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
         Movie movie = mMoviesList.get(position);
         holder.txtMovieName.setText(String.format("%s (%s)", movie.getName(), movie.getYear()));
         holder.txtRate.setText(String.format("%s/10", String.valueOf(movie.getRate())));
+        holder.imgMore.setOnClickListener(view -> mClickListener.onRateClicked(view, position));
         try {
             holder.thumbnail.setImageResource(movie.getImageId());
-
         } catch (Exception e) {
             e.printStackTrace();
             holder.thumbnail.setImageResource(R.drawable.img_no_image);
@@ -70,6 +77,8 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
         TextView txtMovieYear;
         @BindView(R.id.txtRate)
         TextView txtRate;
+        @BindView(R.id.imgMore)
+        ImageView imgMore;
 
         MovieHolder(View view) {
             super(view);

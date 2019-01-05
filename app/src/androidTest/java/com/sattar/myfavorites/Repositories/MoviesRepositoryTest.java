@@ -157,13 +157,26 @@ public class MoviesRepositoryTest {
             movie2.setDescription("a science fiction movie");
             movie2.setImagePath("url");
             movie2.setRate(8.7);
-
-
         });
-
         List<Movie> movies = repository.getMoviesSortedByLowest(testRealm);
 
         assertEquals(movies.get(0),movie1);
         assertEquals(movies.get(1),movie2);
+    }
+
+    @Test
+    public void updateUserRate() {
+
+        testRealm.executeTransaction(realm -> {
+            movie1 = testRealm.createObject(Movie.class, Utils.generateUID());
+            movie1.setName("X-Men");
+            movie1.setDescription("a science fiction movie");
+            movie1.setImagePath("url");
+            movie1.setRate(7);
+
+        });
+       repository.updateUserRate(testRealm,movie1.getId(), (float) 8.5);
+       assertEquals(movie1.getCurrentUserRate(), Float.valueOf("8.5"));
+       assertEquals(movie1.getRate(),((8.5+7)/2),.1);
     }
 }

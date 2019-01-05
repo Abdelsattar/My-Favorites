@@ -1,8 +1,13 @@
 package com.sattar.myfavorites.Views.Activites;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sattar.myfavorites.Helpers.MyFavoritesApp;
 import com.sattar.myfavorites.Helpers.Utils;
@@ -12,7 +17,6 @@ import com.sattar.myfavorites.ViewModels.MainActivityViewModel;
 import com.sattar.myfavorites.Views.Adapters.MoviesRecyclerViewAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -21,6 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.RealmResults;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 /**
  * Created by Sattar on 2-1-2019
@@ -33,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     MoviesRecyclerViewAdapter recyclerViewAdapter;
     MainActivityViewModel viewModel;
     private MyFavoritesApp app;
+    Float userRating;
+
+    MoviesRecyclerViewAdapter.ClickListener cLickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,24 +52,33 @@ public class MainActivity extends AppCompatActivity {
         initScreen();
     }
 
+    RealmResults<Movie> currentShownMovies;
+
     void initScreen() {
         app = (MyFavoritesApp) getApplication();
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         viewModel.init(app.getResourceProvider());
+        currentShownMovies = viewModel.getALlMovies();
+        cLickListener = this::showPopUpMenu;
+        if (currentShownMovies != null && !currentShownMovies.isEmpty()) {
+            currentShownMovies.addChangeListener((movies, changeSet) -> updateRecyclerViewData());
+        }
         setUpMoviesRecyclerViewAdapter();
-        updateRecyclerViewData(viewModel.getALlMovies());
+        updateRecyclerViewData();
     }
 
-
     void setUpMoviesRecyclerViewAdapter() {
-        recyclerViewAdapter = new MoviesRecyclerViewAdapter(new ArrayList<>());
+        recyclerViewAdapter = new MoviesRecyclerViewAdapter(new ArrayList<>(), cLickListener);
         rvMovies.setHasFixedSize(true);
         rvMovies.setAdapter(recyclerViewAdapter);
         rvMovies.setLayoutManager(new GridLayoutManager(this, Utils.calculateNoOfColumns(this)));
     }
 
-    void updateRecyclerViewData(List<Movie> movieList) {
-        recyclerViewAdapter.updateData(movieList);
+    void updateRecyclerViewData() {
+        if (currentShownMovies != null)
+            recyclerViewAdapter.updateData(currentShownMovies);
+        else
+            recyclerViewAdapter.updateData(new ArrayList<>());
     }
 
     @Override
@@ -88,12 +106,67 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void orderMoviesByHighest() {
-        updateRecyclerViewData(viewModel.getALlMoviesSortedByHighest());
+        currentShownMovies = viewModel.getALlMoviesSortedByHighest();
+        updateRecyclerViewData();
     }
-
 
     private void orderMoviesByLowest() {
-        updateRecyclerViewData(viewModel.getALlMoviesSortedByLowest());
+        currentShownMovies = viewModel.getALlMoviesSortedByLowest();
+        updateRecyclerViewData();
+    }
 
+    void showPopUpMenu(View view, int pos) {
+        PopupMenu popup = new PopupMenu(MainActivity.this, view);
+        popup.getMenuInflater().inflate(R.menu.rate_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(item -> {
+
+            showRatingDialog(pos);
+            return true;
+        });
+
+        popup.show();
+    }
+
+
+    public void showRatingDialog(int pos) {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_rate);
+        dialog.setTitle(R.string.txt_rate);
+
+        TextView txtRate = dialog.findViewById(R.id.txtRate);
+        TextView btnRate = dialog.findViewById(R.id.btnRate);
+        TextView txtTitle = dialog.findViewById(R.id.txtTitle);
+
+        userRating = null;
+        Movie rateMovie = currentShownMovies.get(pos);
+
+        txtTitle.append(" " + rateMovie.getName());
+        MaterialRatingBar rateBar = dialog.findViewById(R.id.rateBar);
+        if (rateMovie.getCurrentUserRate() != null) {
+            rateBar.setRating(rateMovie.getCurrentUserRate());
+            txtRate.setText(String.valueOf(rateMovie.getCurrentUserRate()));
+        }
+        rateBar.setOnRatingChangeListener((ratingBar, rating) -> {
+            userRating = rating;
+            txtRate.setText(String.format
+                    ("%s/10", rating));
+
+        });
+
+        btnRate.setOnClickListener(view -> {
+            if (userRating != null) {
+                viewModel.updateUserRate(rateMovie.getId(), userRating);
+                dialog.cancel();
+                Toast.makeText(
+                        MainActivity.this,
+                        String.format(getString(R.string.txt_message_rating), rateMovie.getName(),
+                                String.valueOf(userRating)),
+                        Toast.LENGTH_SHORT)
+                        .show();
+
+            }
+        });
+        dialog.show();
     }
 }
+

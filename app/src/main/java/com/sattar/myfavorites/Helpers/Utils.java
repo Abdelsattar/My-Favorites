@@ -7,8 +7,8 @@ import java.util.UUID;
 
 public class Utils {
 
-    public static String generateUID(){
-        return  UUID.randomUUID().toString();
+    public static String generateUID() {
+        return UUID.randomUUID().toString();
     }
 
     public static int calculateNoOfColumns(Context context) {
@@ -16,4 +16,9 @@ public class Utils {
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         return (int) (dpWidth / 180);
     }
+
+    public static double calculateNewRating(float rating, double userRating) {
+        return ((rating + userRating) / 2);
+    }
+
 }

@@ -12,7 +12,8 @@
     <dimen name="movie_cover_height">180dp</dimen>
     <dimen name="movie_name_padding">10dp</dimen>
 
-    <dimen name="movie_name">15sp</dimen>
+    <dimen name="big_title_size">18sp</dimen>
+    <dimen name="title_size">14sp</dimen>
     <dimen name="movie_name_padding_bottom">5dp</dimen>
     <dimen name="movie_year">12sp</dimen>
 </resources>

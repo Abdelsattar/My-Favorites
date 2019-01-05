@@ -8,17 +8,20 @@ import io.realm.annotations.PrimaryKey;
  */
 public class Movie extends RealmObject {
 
-    public interface Fields{
-        public String KEY_RATE= "rate";
+    public interface Fields {
+        public String KEY_RATE = "rate";
+        public String KEY_ID = "id";
     }
+
     @PrimaryKey
-    private String id;
-    private String name;
-    private String description;
-    private double rate;
-    private String imagePath;
-    private Integer imageId;
-    private String year;
+   private String id;
+   private String name;
+   private String description;
+   private double rate;
+   private Float currentUserRate;
+   private String imagePath;
+   private Integer imageId;
+   private String year;
 
     public String getName() {
         return name;
@@ -37,7 +40,7 @@ public class Movie extends RealmObject {
     }
 
     public double getRate() {
-        return rate;
+        return  rate;
     }
 
     public void setRate(double rate) {
@@ -66,5 +69,21 @@ public class Movie extends RealmObject {
 
     public void setImageId(Integer imageId) {
         this.imageId = imageId;
+    }
+
+    public Float getCurrentUserRate() {
+        return currentUserRate;
+    }
+
+    public void setCurrentUserRate(Float currentUserRate) {
+        this.currentUserRate = currentUserRate;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

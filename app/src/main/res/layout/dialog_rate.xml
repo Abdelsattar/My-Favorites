@@ -1,0 +1,54 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/txt_rate"
+        android:textSize="@dimen/big_title_size"
+        android:textStyle="bold"/>
+
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/rateBar"
+        style="@style/Widget.MaterialRatingBar.RatingBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtTitle"
+        android:layout_margin="4dp"
+        android:numStars="10"
+        app:mrb_progressTint="@color/yellow_rate"
+        app:mrb_secondaryProgressTint="@color/yellow_rate"/>
+
+    <TextView
+        android:id="@+id/txtRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rateBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="0/10"
+        android:textSize="@dimen/title_size"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtRate"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/item_margin"
+        android:background="?selectableItemBackground"
+        android:padding="@dimen/item_margin"
+        android:id="@+id/btnRate"
+        android:text="@string/txt_rate"/>
+</RelativeLayout>
+
+
