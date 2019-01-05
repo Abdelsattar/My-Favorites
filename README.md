@@ -7,10 +7,10 @@ applying some skills with simple app idea
 app idea: 
 
 - [x] basically having list of movies items 
-- [x] sorted locally
+- [x] store data locally
+- [x] sort movies by highest or by lowest rate 
 - [ ] user can rate movies
-- [ ] can random rate movies at random times
-- [ ] list them by highest or by lowest rate 
+- [ ] start random rate movies at random times
 - [ ] see movie details
 
 
@@ -23,3 +23,5 @@ we will use in the app the following :
 - ViewModel
 - Realm 
 - Data Binding
+
+//unit testing are in android test as realm testing requires context to run with it 
