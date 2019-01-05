@@ -43,12 +43,6 @@ public class MainActivityViewModel extends ViewModel {
     private void initDBWithData() {
 
         mRealm.executeTransaction(realm -> {
-            Movie cocoMovie = mRealm.createObject(Movie.class, Utils.generateUID());
-            cocoMovie.setName(mResourceProvider.getString(R.string.txt_coco));
-            cocoMovie.setDescription(mResourceProvider.getString(R.string.txt_coco_description));
-            cocoMovie.setImageId(R.drawable.img_coco);
-            cocoMovie.setYear(mResourceProvider.getString(R.string.txt_2017));
-            cocoMovie.setRate(8.4);
 
             Movie deadPoolMovie = mRealm.createObject(Movie.class, Utils.generateUID());
             deadPoolMovie.setName(mResourceProvider.getString(R.string.txt_deadpool));
@@ -57,12 +51,6 @@ public class MainActivityViewModel extends ViewModel {
             deadPoolMovie.setYear(mResourceProvider.getString(R.string.txt_2016));
             deadPoolMovie.setRate(8.0);
 
-            Movie harrayPotterMovie = mRealm.createObject(Movie.class, Utils.generateUID());
-            harrayPotterMovie.setName(mResourceProvider.getString(R.string.txt_harry_potter));
-            harrayPotterMovie.setDescription(mResourceProvider.getString(R.string.txt_harry_potter_description));
-            harrayPotterMovie.setYear(mResourceProvider.getString(R.string.txt_2014));
-            harrayPotterMovie.setRate(7.9);
-            harrayPotterMovie.setImageId(R.drawable.img_harry_poter);
 
             Movie homeAloneMovie = mRealm.createObject(Movie.class, Utils.generateUID());
             homeAloneMovie.setName(mResourceProvider.getString(R.string.txt_home_alone));
@@ -77,6 +65,12 @@ public class MainActivityViewModel extends ViewModel {
             incredibleMovie.setYear(mResourceProvider.getString(R.string.txt_2018));
             incredibleMovie.setImageId(R.drawable.img_incredible);
             incredibleMovie.setRate(7.8);
+            Movie cocoMovie = mRealm.createObject(Movie.class, Utils.generateUID());
+            cocoMovie.setName(mResourceProvider.getString(R.string.txt_coco));
+            cocoMovie.setDescription(mResourceProvider.getString(R.string.txt_coco_description));
+            cocoMovie.setImageId(R.drawable.img_coco);
+            cocoMovie.setYear(mResourceProvider.getString(R.string.txt_2017));
+            cocoMovie.setRate(8.4);
 
             Movie theGratestMovie = mRealm.createObject(Movie.class, Utils.generateUID());
             theGratestMovie.setName(mResourceProvider.getString(R.string.txt_the_greatest));
@@ -91,6 +85,13 @@ public class MainActivityViewModel extends ViewModel {
             theMountainMovie.setYear(mResourceProvider.getString(R.string.txt_2017));
             theMountainMovie.setImageId(R.drawable.img_the_mountain);
             theMountainMovie.setRate(6.4);
+
+            Movie harrayPotterMovie = mRealm.createObject(Movie.class, Utils.generateUID());
+            harrayPotterMovie.setName(mResourceProvider.getString(R.string.txt_harry_potter));
+            harrayPotterMovie.setDescription(mResourceProvider.getString(R.string.txt_harry_potter_description));
+            harrayPotterMovie.setYear(mResourceProvider.getString(R.string.txt_2014));
+            harrayPotterMovie.setRate(7.9);
+            harrayPotterMovie.setImageId(R.drawable.img_harry_poter);
 
             Movie xmenMovie = mRealm.createObject(Movie.class, Utils.generateUID());
             xmenMovie.setName(mResourceProvider.getString(R.string.txt_xen));
@@ -110,6 +111,14 @@ public class MainActivityViewModel extends ViewModel {
 
     public List<Movie> getALlMovies() {
         return movieRepository.getAllMovies(mRealm);
+    }
+
+    public List<Movie> getALlMoviesSortedByHighest() {
+        return movieRepository.getMoviesSortedByHighest(mRealm);
+    }
+
+    public List<Movie> getALlMoviesSortedByLowest() {
+        return movieRepository.getMoviesSortedByLowest(mRealm);
     }
 
 

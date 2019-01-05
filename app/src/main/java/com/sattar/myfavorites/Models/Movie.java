@@ -8,6 +8,9 @@ import io.realm.annotations.PrimaryKey;
  */
 public class Movie extends RealmObject {
 
+    public interface Fields{
+        public String KEY_RATE= "rate";
+    }
     @PrimaryKey
     private String id;
     private String name;

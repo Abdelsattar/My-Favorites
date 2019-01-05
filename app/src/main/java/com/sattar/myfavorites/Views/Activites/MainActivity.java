@@ -88,12 +88,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void orderMoviesByHighest() {
-        updateRecyclerViewData(viewModel.getALlMovies());
+        updateRecyclerViewData(viewModel.getALlMoviesSortedByHighest());
     }
 
 
     private void orderMoviesByLowest() {
-        updateRecyclerViewData(viewModel.getALlMovies());
+        updateRecyclerViewData(viewModel.getALlMoviesSortedByLowest());
 
     }
 }

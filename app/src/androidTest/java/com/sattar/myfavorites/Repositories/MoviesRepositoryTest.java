@@ -136,7 +136,7 @@ public class MoviesRepositoryTest {
 
 
         });
-        List<Movie> movies = repository.getMoviesByHighest();
+        List<Movie> movies = repository.getMoviesSortedByHighest(testRealm);
 
         assertEquals(movies.get(0),movie1);
         assertEquals(movies.get(1),movie2);
@@ -161,7 +161,7 @@ public class MoviesRepositoryTest {
 
         });
 
-        List<Movie> movies = repository.getMoviesByLowest();
+        List<Movie> movies = repository.getMoviesSortedByLowest(testRealm);
 
         assertEquals(movies.get(0),movie1);
         assertEquals(movies.get(1),movie2);
