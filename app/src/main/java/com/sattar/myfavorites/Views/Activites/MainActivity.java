@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     MoviesRecyclerViewAdapter recyclerViewAdapter;
     MainActivityViewModel viewModel;
+    private MyFavoritesApp app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void initScreen() {
-        MyFavoritesApp app= (MyFavoritesApp) getApplication();
+        app = (MyFavoritesApp) getApplication();
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         viewModel.init(app.getResourceProvider());
         setUpMoviesRecyclerViewAdapter();

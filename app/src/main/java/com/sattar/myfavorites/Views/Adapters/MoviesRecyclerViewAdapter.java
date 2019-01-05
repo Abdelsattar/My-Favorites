@@ -21,9 +21,9 @@ import butterknife.ButterKnife;
  */
 public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecyclerViewAdapter.MovieHolder> {
 
-    List<Movie> mMoviesList;
+    private List<Movie> mMoviesList;
 
-    public MoviesRecyclerViewAdapter(List<Movie> moviesList) {
+    public MoviesRecyclerViewAdapter( List<Movie> moviesList) {
         mMoviesList = moviesList;
     }
 
@@ -39,8 +39,8 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
     @Override
     public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
         Movie movie = mMoviesList.get(position);
-        holder.txtMovieName.setText(movie.getName());
-        holder.txtMovieYear.setText(movie.getYear());
+        holder.txtMovieName.setText(String.format("%s (%s)", movie.getName(), movie.getYear()));
+        holder.txtRate.setText(String.format("%s/10", String.valueOf(movie.getRate())));
         try {
             holder.thumbnail.setImageResource(movie.getImageId());
 
@@ -68,6 +68,8 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
         TextView txtMovieName;
         @BindView(R.id.txtMovieYear)
         TextView txtMovieYear;
+        @BindView(R.id.txtRate)
+        TextView txtRate;
 
         MovieHolder(View view) {
             super(view);

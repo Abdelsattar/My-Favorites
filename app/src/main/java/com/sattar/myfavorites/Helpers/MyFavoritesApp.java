@@ -1,7 +1,9 @@
 package com.sattar.myfavorites.Helpers;
 
 import android.app.Application;
-
+/**
+ * Created by Sattar on 4-1-2019
+ */
 public class MyFavoritesApp extends Application {
 
     private ResourceProvider mResourceProvider;

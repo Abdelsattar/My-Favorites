@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">My Favorites</string>
-    <string name="txt_coco_description">Aspiring musician Miguel, confronted with his family\'s ancestral ban on music, enters the Land of the Dead to find his great-great-grandfather, a legendary singer.</string>
+
+    <string name="txt_coco_description">Aspiring musician Miguel, confronted with his
+        family\'s ancestral         ban on music, enters the Land of the Dead to find his great-great-grandfather, a legendary singer.</string>
     <string name="txt_coco">Coco</string>
     <string name="txt_2017">2017</string>
+
     <string name="txt_dead_pool_description">A fast-talking mercenary with a morbid sense of humor is subjected to a rogue experiment that leaves him with accelerated healing powers and a quest for revenge.</string>
     <string name="txt_deadpool">DEADPOOL</string>
     <string name="txt_2016">2016</string>
@@ -23,4 +26,5 @@
     <string name="txt_xmen_description">The X-Men send Wolverine to the past in a desperate effort to change history and prevent an event that results in doom for both humans and mutants.</string>
     <string name="txt_john_wick">John Wick</string>
     <string name="txt_john_wick_description">An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him.</string>
+
 </resources>

@@ -8,10 +8,11 @@ app idea:
 
 - [x] basically having list of movies items 
 - [x] sorted locally
-- [ ] see movie details
 - [ ] user can rate movies
-- [ ] can random rate movies
+- [ ] can random rate movies at random times
 - [ ] list them by highest or by lowest rate 
+- [ ] see movie details
+
 
 we will use in the app the following : 
 - TDD approach

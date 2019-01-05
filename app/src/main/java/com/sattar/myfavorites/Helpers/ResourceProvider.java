@@ -2,6 +2,9 @@ package com.sattar.myfavorites.Helpers;
 
 import android.content.Context;
 
+/**
+ * Created by Sattar on 4-1-2019
+ */
 public class ResourceProvider {
 
 
@@ -15,7 +18,9 @@ public class ResourceProvider {
         return mContext.getString(resId);
     }
 
-    public String getString(int resId, String value) {
-        return mContext.getString(resId, value);
+    public String getString(int resId, Object... values) {
+        return    mContext.getString(resId, values);
+//        return String.format(mContext.getString(resId),values);
     }
+
 }
