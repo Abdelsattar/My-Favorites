@@ -8,5 +8,9 @@
         android:id="@+id/menu_order_lowest"
         android:title="@string/txt_order_lowest"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_random_rating"
+        android:title="@string/txt_start_random_rating"
+        app:showAsAction="never"/>
 
 </menu>

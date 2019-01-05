@@ -9,7 +9,7 @@ app idea:
 - [x] basically having list of movies items 
 - [x] store data locally
 - [x] sort movies by highest or by lowest rate 
-- [ ] user can rate movies
+- [x] user can rate movies
 - [ ] start random rate movies at random times
 - [ ] see movie details
 

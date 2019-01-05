@@ -1,6 +1,8 @@
 package com.sattar.myfavorites.Views.Activites;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +30,8 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
+import static com.sattar.myfavorites.Helpers.Constants.KEY_RANDOM_RATING;
+
 /**
  * Created by Sattar on 2-1-2019
  */
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     Float userRating;
 
     MoviesRecyclerViewAdapter.ClickListener cLickListener;
+    private SharedPreferences preferences;
+    private MenuItem randomMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     RealmResults<Movie> currentShownMovies;
 
     void initScreen() {
+        preferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+
         app = (MyFavoritesApp) getApplication();
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         viewModel.init(app.getResourceProvider());
@@ -86,6 +94,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        randomMenuItem = menu.findItem(R.id.menu_random_rating);
+
+        if (isRandomRatingWorking()) {
+            randomMenuItem.setTitle(getString(R.string.txt_stop_random_rating));
+        }
+
         return true;
     }
 
@@ -99,6 +113,18 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_order_lowest:
                 //your code here
                 orderMoviesByLowest();
+                return true;
+            case R.id.menu_random_rating:
+                //your code here
+
+                if (isRandomRatingWorking()) {
+                    randomMenuItem.setTitle(getString(R.string.txt_start_random_rating));
+                    viewModel.startRandomRating();
+                } else {
+                    randomMenuItem.setTitle(getString(R.string.txt_stop_random_rating));
+                    viewModel.stopRandomRating();
+                }
+                changeRandomRating();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -119,14 +145,12 @@ public class MainActivity extends AppCompatActivity {
         PopupMenu popup = new PopupMenu(MainActivity.this, view);
         popup.getMenuInflater().inflate(R.menu.rate_menu, popup.getMenu());
         popup.setOnMenuItemClickListener(item -> {
-
             showRatingDialog(pos);
             return true;
         });
 
         popup.show();
     }
-
 
     public void showRatingDialog(int pos) {
         Dialog dialog = new Dialog(this);
@@ -168,5 +192,17 @@ public class MainActivity extends AppCompatActivity {
         });
         dialog.show();
     }
+
+    void changeRandomRating() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(KEY_RANDOM_RATING, !isRandomRatingWorking());
+        editor.apply();
+    }
+
+    boolean isRandomRatingWorking() {
+        return preferences.getBoolean(KEY_RANDOM_RATING, false);
+    }
+
+
 }
 

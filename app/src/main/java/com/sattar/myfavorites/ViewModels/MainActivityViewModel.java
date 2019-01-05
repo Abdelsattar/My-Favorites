@@ -1,8 +1,5 @@
 package com.sattar.myfavorites.ViewModels;
 
-
-//import android.arch.lifecycle.ViewModel;
-
 import com.sattar.myfavorites.Helpers.ResourceProvider;
 import com.sattar.myfavorites.Models.Movie;
 import com.sattar.myfavorites.R;
@@ -26,13 +23,10 @@ public class MainActivityViewModel extends ViewModel {
             return;
         mRealm = Realm.getDefaultInstance();
         movieRepository = new MovieRepository();
-
-
     }
 
     public void init(ResourceProvider resourceProvider) {
         mResourceProvider = resourceProvider;
-
         if (!movieRepository.isThereMovies(mRealm)) {
             initDBWithData();
         }
@@ -59,7 +53,6 @@ public class MainActivityViewModel extends ViewModel {
                 mResourceProvider.getString(R.string.txt_2018),
                 R.drawable.img_incredible,
                 7.8);
-
 
         movieRepository.insertMovies(mRealm,
                 mResourceProvider.getString(R.string.txt_coco),
@@ -102,7 +95,7 @@ public class MainActivityViewModel extends ViewModel {
                 mResourceProvider.getString(R.string.txt_2014),
                 R.drawable.img_john_wick,
                 7.3);
-        
+
     }
 
     public RealmResults<Movie> getALlMovies() {
@@ -119,5 +112,13 @@ public class MainActivityViewModel extends ViewModel {
 
     public void updateUserRate(String id, float rating) {
         movieRepository.updateUserRate(mRealm, id, rating);
+    }
+
+    public void startRandomRating(){
+
+    }
+
+    public void stopRandomRating(){
+
     }
 }

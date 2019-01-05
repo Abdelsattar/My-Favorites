@@ -31,5 +31,7 @@
     <string name="txt_order_lowest">Order lowest to Highest</string>
     <string name="txt_rate">Rate </string>
     <string name="txt_message_rating">you rated %s %s</string>
+    <string name="txt_start_random_rating">Start random rating</string>
+    <string name="txt_stop_random_rating">Stop random rating</string>
 
 </resources>
