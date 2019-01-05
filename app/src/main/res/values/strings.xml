@@ -26,5 +26,7 @@
     <string name="txt_xmen_description">The X-Men send Wolverine to the past in a desperate effort to change history and prevent an event that results in doom for both humans and mutants.</string>
     <string name="txt_john_wick">John Wick</string>
     <string name="txt_john_wick_description">An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him.</string>
+    <string name="txt_order_highest">Order Highest to lowest</string>
+    <string name="txt_order_lowest">Order lowest to Highest</string>
 
 </resources>

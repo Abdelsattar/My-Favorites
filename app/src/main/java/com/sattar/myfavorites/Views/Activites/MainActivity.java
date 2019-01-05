@@ -1,7 +1,8 @@
 package com.sattar.myfavorites.Views.Activites;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.sattar.myfavorites.Helpers.MyFavoritesApp;
 import com.sattar.myfavorites.Helpers.Utils;
@@ -59,7 +60,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void updateRecyclerViewData(List<Movie> movieList) {
-        Log.e("Movie lIst", movieList.size() + " ");
         recyclerViewAdapter.updateData(movieList);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_order_highest:
+                //your code here
+                orderMoviesByHighest();
+                return true;
+            case R.id.menu_order_lowest:
+                //your code here
+                orderMoviesByLowest();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void orderMoviesByHighest() {
+        updateRecyclerViewData(viewModel.getALlMovies());
+    }
+
+
+    private void orderMoviesByLowest() {
+        updateRecyclerViewData(viewModel.getALlMovies());
+
     }
 }

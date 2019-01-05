@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_order_highest"
+        android:title="@string/txt_order_highest"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_order_lowest"
+        android:title="@string/txt_order_lowest"
+        app:showAsAction="never"/>
+
+</menu>

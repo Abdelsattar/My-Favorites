@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 import io.realm.Realm;
@@ -25,6 +27,7 @@ public class MoviesRepositoryTest {
 
     private MovieRepository repository;
     Realm testRealm;
+    Movie movie1, movie2;
 
     @Before
     public void setUp() throws Exception {
@@ -98,7 +101,6 @@ public class MoviesRepositoryTest {
         assertEquals(4, repository.getAllMovies(testRealm).size());
     }
 
-
     @Test
     public void isThereMovies_EmptyDB() {
         assertTrue(testRealm.isEmpty());
@@ -116,4 +118,52 @@ public class MoviesRepositoryTest {
         assertFalse(testRealm.isEmpty());
     }
 
+    @Test
+    public void getMoviesByHighest() {
+
+        testRealm.executeTransaction(realm -> {
+            movie1 = testRealm.createObject(Movie.class, Utils.generateUID());
+            movie1.setName("X-Men");
+            movie1.setDescription("a science fiction movie");
+            movie1.setImagePath("url");
+            movie1.setRate(9.5);
+
+            movie2 = testRealm.createObject(Movie.class, Utils.generateUID());
+            movie2.setName("X-Men");
+            movie2.setDescription("a science fiction movie");
+            movie2.setImagePath("url");
+            movie2.setRate(8.7);
+
+
+        });
+        List<Movie> movies = repository.getMoviesByHighest();
+
+        assertEquals(movies.get(0),movie1);
+        assertEquals(movies.get(1),movie2);
+    }
+
+    @Test
+    public void orderMoviesByLowest() {
+
+        testRealm.executeTransaction(realm -> {
+            movie1 = testRealm.createObject(Movie.class, Utils.generateUID());
+            movie1.setName("X-Men");
+            movie1.setDescription("a science fiction movie");
+            movie1.setImagePath("url");
+            movie1.setRate(7);
+
+            movie2 = testRealm.createObject(Movie.class, Utils.generateUID());
+            movie2.setName("X-Men");
+            movie2.setDescription("a science fiction movie");
+            movie2.setImagePath("url");
+            movie2.setRate(8.7);
+
+
+        });
+
+        List<Movie> movies = repository.getMoviesByLowest();
+
+        assertEquals(movies.get(0),movie1);
+        assertEquals(movies.get(1),movie2);
+    }
 }
