@@ -3,6 +3,8 @@ package com.sattar.myfavorites.Repositories;
 import com.sattar.myfavorites.Helpers.Utils;
 import com.sattar.myfavorites.Models.Movie;
 
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -60,8 +62,20 @@ public class MovieRepository {
             });
     }
 
+    public int getMoviesSize(Realm realm) {
+        List<Movie> movies = realm.where(Movie.class).findAll();
 
-    public void updateMoviesRate(double[] rates) {
+        return movies != null ? movies.size() : 0;
 
     }
+
+    public void updateMoviesRate(Realm realm, double[] rates) {
+        List<Movie> movies = realm.where(Movie.class).findAll();
+        realm.executeTransaction(realm1 -> {
+            for (int i = 0; i < rates.length && i < movies.size(); i++) {
+                movies.get(i).setRate(rates[i]);
+            }
+        });
+    }
+
 }

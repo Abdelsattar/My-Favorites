@@ -190,18 +190,18 @@ public class MoviesRepositoryTest {
             movie1.setImagePath("url");
             movie1.setRate(7);
 
-            movie1 = testRealm.createObject(Movie.class, Utils.generateUID());
-            movie1.setName("X-Men");
-            movie1.setDescription("a science fiction movie");
-            movie1.setImagePath("url");
-            movie1.setRate(10);
+            movie2 = testRealm.createObject(Movie.class, Utils.generateUID());
+            movie2.setName("X-Men");
+            movie2.setDescription("a science fiction movie");
+            movie2.setImagePath("url");
+            movie2.setRate(10);
 
         });
         double [] rates = new double[2];
         rates[0] = 7.5;
         rates[1] = 8.6;
 
-        repository.updateMoviesRate(rates);
+        repository.updateMoviesRate(testRealm,rates);
         assertEquals(movie1.getRate(), rates[0], .1);
         assertEquals(movie2.getRate(), rates[1], .1);
 

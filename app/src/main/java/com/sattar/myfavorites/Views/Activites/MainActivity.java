@@ -60,12 +60,26 @@ public class MainActivity extends AppCompatActivity {
 
     RealmResults<Movie> currentShownMovies;
 
+    public interface ShowToastListener {
+        void showToast(String message);
+    }
+
+    ShowToastListener showToastListener;
+
     void initScreen() {
         preferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
 
+        showToastListener = message -> {
+            Toast.makeText(
+                    getBaseContext(),
+                    message,
+                    Toast.LENGTH_SHORT
+            ).show();
+        };
+
         app = (MyFavoritesApp) getApplication();
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
-        viewModel.init(app.getResourceProvider());
+        viewModel.init(app.getResourceProvider(), showToastListener);
         currentShownMovies = viewModel.getALlMovies();
         cLickListener = this::showPopUpMenu;
 
@@ -96,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         randomMenuItem = menu.findItem(R.id.menu_random_rating);
 
         if (isRandomRatingWorking()) {
+            viewModel.startRandomRating();
             randomMenuItem.setTitle(getString(R.string.txt_stop_random_rating));
         }
 
@@ -201,7 +216,6 @@ public class MainActivity extends AppCompatActivity {
     boolean isRandomRatingWorking() {
         return preferences.getBoolean(KEY_RANDOM_RATING, false);
     }
-
 
 }
 

@@ -3,6 +3,8 @@ package com.sattar.myfavorites.Helpers;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Random;
 import java.util.UUID;
 
@@ -23,7 +25,7 @@ public class Utils {
     }
 
     public static int getRandomDelay() {
-        return (int) (Math.random() * 10);
+        return (int) (Math.random() * 180) + 20;
     }
 
     public static double[] getRandomRates(int size) {
@@ -36,7 +38,14 @@ public class Utils {
 
     static double getRandomNumber(double rangeMin, double rangeMax) {
         Random r = new Random();
-        return rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+        double num = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+
+        NumberFormat formatter = new DecimalFormat("#0.0");
+        return Double.valueOf(formatter.format(num));
     }
 
+    public static String getMinutesSec(int secs) {
+        return ((secs % 3600) / 60) + " minutes and " + (secs % 60) + "seconds";
+
+    }
 }

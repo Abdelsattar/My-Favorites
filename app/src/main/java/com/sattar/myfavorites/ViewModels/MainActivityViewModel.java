@@ -7,14 +7,15 @@ import com.sattar.myfavorites.Helpers.Utils;
 import com.sattar.myfavorites.Models.Movie;
 import com.sattar.myfavorites.R;
 import com.sattar.myfavorites.Repositories.MovieRepository;
+import com.sattar.myfavorites.Views.Activites.MainActivity;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import androidx.lifecycle.ViewModel;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -27,6 +28,8 @@ public class MainActivityViewModel extends ViewModel {
     private Realm mRealm;
     private ResourceProvider mResourceProvider;
     private Disposable disposable;
+    private int timeDelay;
+    MainActivity.ShowToastListener mShowToastListener;
 
     public MainActivityViewModel() {
         if (mRealm != null)
@@ -35,11 +38,14 @@ public class MainActivityViewModel extends ViewModel {
         movieRepository = new MovieRepository();
     }
 
-    public void init(ResourceProvider resourceProvider) {
+    public void init(ResourceProvider resourceProvider, MainActivity.ShowToastListener showToastListener) {
         mResourceProvider = resourceProvider;
         if (!movieRepository.isThereMovies(mRealm)) {
             initDBWithData();
         }
+        timeDelay = Utils.getRandomDelay();
+
+        mShowToastListener = showToastListener;
     }
 
     private void initDBWithData() {
@@ -129,29 +135,22 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     private void getRandom() {
-        Observable.fromCallable(() -> Utils.getRandomRates(10))
-                .repeatWhen(observable -> {
-
-                    Log.e("RX java", "apply ");
-                    int timeDelay = Utils.getRandomDelay();
-                    Log.e("RX java", "timeDelay " + timeDelay);
-
-                    return observable.delay(timeDelay, TimeUnit.SECONDS);
-                })
+        Observable.fromCallable(() -> {
+            Realm realm = Realm.getDefaultInstance();
+            return Utils.getRandomRates(movieRepository.getMoviesSize(realm));
+        }).doOnNext(doubles -> {
+            timeDelay = Utils.getRandomDelay();
+            if (mShowToastListener != null) {
+                mShowToastListener.showToast(
+                        String.format(mResourceProvider.getString(R.string.txt_toast_delay),
+                                Utils.getMinutesSec(timeDelay)));
+                Log.e("Toast", String.format(mResourceProvider.getString(R.string.txt_toast_delay),
+                        Utils.getMinutesSec(timeDelay)));
+            }
+        }).repeatWhen(observable -> {
+            return observable.delay(timeDelay, TimeUnit.SECONDS);
+        }).subscribeOn(Schedulers.io())
                 .subscribe(getObserver());
-    }
-
-    void generateRandomNumber() {
-        Random random = new Random();
-//        Observable
-//                .fromCallable(() -> Utils::getRandomRate ())
-//                .repeat()
-//                .map(rnd -> {
-//                    // do something with the random number
-//                    return rnd * 2;
-//                })
-//                .take(10)
-//                .subscribe(getObserver());
     }
 
     Observer getObserver() {
@@ -165,7 +164,8 @@ public class MainActivityViewModel extends ViewModel {
             @Override
             public void onNext(double[] rates) {
                 Log.e("Radnom", rates.length + "");
-                movieRepository.updateMoviesRate(rates);
+                Realm realm = Realm.getDefaultInstance();
+                movieRepository.updateMoviesRate(realm, rates);
             }
 
             @Override
