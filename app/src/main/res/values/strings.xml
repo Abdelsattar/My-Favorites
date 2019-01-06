@@ -27,6 +27,9 @@
     <string name="txt_xmen_description">The X-Men send Wolverine to the past in a desperate effort to change history and prevent an event that results in doom for both humans and mutants.</string>
     <string name="txt_john_wick">John Wick</string>
     <string name="txt_john_wick_description">An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him.</string>
+    <string name="txt_captain_america">Captain america the first avenger</string>
+    <string name="txt_captain_america_description">Steve Rogers, a rejected military soldier transforms into Captain America after taking a dose of a "Super-Soldier serum". But being Captain America comes at a price as he attempts to take down a war monger and a terrorist organization.</string>
+
     <string name="txt_order_highest">Order Highest to lowest</string>
     <string name="txt_order_lowest">Order lowest to Highest</string>
     <string name="txt_rate">Rate </string>
@@ -34,5 +37,6 @@
     <string name="txt_start_random_rating">Start random rating</string>
     <string name="txt_stop_random_rating">Stop random rating</string>
     <string name="txt_toast_delay">Next random rating will be after %s</string>
+    <string name="txt_2011">2011</string>
 
 </resources>

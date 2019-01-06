@@ -1,7 +1,6 @@
 package com.sattar.myfavorites.Views.Activites;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,8 +16,11 @@ import com.sattar.myfavorites.Models.Movie;
 import com.sattar.myfavorites.R;
 import com.sattar.myfavorites.ViewModels.MainActivityViewModel;
 import com.sattar.myfavorites.Views.Adapters.MoviesRecyclerViewAdapter;
+import com.sattar.myfavorites.di.ViewModelFactory;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -26,7 +28,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 import io.realm.RealmResults;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
@@ -46,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
     Float userRating;
 
     MoviesRecyclerViewAdapter.ClickListener cLickListener;
-    private SharedPreferences preferences;
+    @Inject
+    SharedPreferences preferences;
+    @Inject
+    ViewModelFactory viewModelFactory;
     private MenuItem randomMenuItem;
 
     @Override
@@ -54,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        Realm.init(getApplicationContext());
+        ((MyFavoritesApp) getApplication()).getAppCompetent().inject(this);
         initScreen();
     }
 
@@ -67,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
     ShowToastListener showToastListener;
 
     void initScreen() {
-        preferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
 
         showToastListener = message -> {
             Toast.makeText(
@@ -78,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
         };
 
         app = (MyFavoritesApp) getApplication();
-        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+
+        viewModel = ViewModelProviders.of(this,viewModelFactory).get(MainActivityViewModel.class);
         viewModel.init(app.getResourceProvider(), showToastListener);
         currentShownMovies = viewModel.getALlMovies();
         cLickListener = this::showPopUpMenu;

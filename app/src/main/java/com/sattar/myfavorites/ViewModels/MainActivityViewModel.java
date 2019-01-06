@@ -11,6 +11,8 @@ import com.sattar.myfavorites.Views.Activites.MainActivity;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import androidx.lifecycle.ViewModel;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -24,128 +26,60 @@ import io.realm.RealmResults;
  */
 public class MainActivityViewModel extends ViewModel {
 
-    private MovieRepository movieRepository;
-    private Realm mRealm;
+    @Inject
+    MovieRepository mMovieRepository;
+    @Inject
+    Realm mRealm;
+
     private ResourceProvider mResourceProvider;
     private Disposable disposable;
     private int timeDelay;
-    MainActivity.ShowToastListener mShowToastListener;
+    private MainActivity.ShowToastListener mShowToastListener;
 
-    public MainActivityViewModel() {
-        if (mRealm != null)
-            return;
-        mRealm = Realm.getDefaultInstance();
-        movieRepository = new MovieRepository();
+    @Inject
+    public MainActivityViewModel(MovieRepository movieRepository,
+                                 Realm realm) {
+        mRealm = realm;
+        mMovieRepository = movieRepository;
     }
 
     public void init(ResourceProvider resourceProvider, MainActivity.ShowToastListener showToastListener) {
         mResourceProvider = resourceProvider;
-        if (!movieRepository.isThereMovies(mRealm)) {
+        if (!mMovieRepository.isThereMovies(mRealm)) {
             initDBWithData();
         }
         timeDelay = Utils.getRandomDelay();
-
         mShowToastListener = showToastListener;
     }
 
-    private void initDBWithData() {
-
-        movieRepository.insertMovies(mRealm,
-                mResourceProvider.getString(R.string.txt_deadpool),
-                mResourceProvider.getString(R.string.txt_dead_pool_description),
-                mResourceProvider.getString(R.string.txt_2016),
-                R.drawable.img_dead_bool,
-                8.0);
-
-        movieRepository.insertMovies(mRealm,
-                mResourceProvider.getString(R.string.txt_home_alone),
-                mResourceProvider.getString(R.string.txt_home_alone_description),
-                mResourceProvider.getString(R.string.txt_1990),
-                R.drawable.img_home_alone,
-                7.5);
-        movieRepository.insertMovies(mRealm,
-                mResourceProvider.getString(R.string.txt_incredible),
-                mResourceProvider.getString(R.string.txt_incredible_description),
-                mResourceProvider.getString(R.string.txt_2018),
-                R.drawable.img_incredible,
-                7.8);
-
-        movieRepository.insertMovies(mRealm,
-                mResourceProvider.getString(R.string.txt_coco),
-                mResourceProvider.getString(R.string.txt_coco_description),
-                mResourceProvider.getString(R.string.txt_2017),
-                R.drawable.img_coco,
-                8.4);
-
-        movieRepository.insertMovies(mRealm,
-                mResourceProvider.getString(R.string.txt_the_greatest),
-                mResourceProvider.getString(R.string.txt_the_greatest_description),
-                mResourceProvider.getString(R.string.txt_2017),
-                R.drawable.img_the_greates,
-                7.7);
-
-        movieRepository.insertMovies(mRealm,
-                mResourceProvider.getString(R.string.txt_the_mountin),
-                mResourceProvider.getString(R.string.txt_the_mountin_description),
-                mResourceProvider.getString(R.string.txt_2017),
-                R.drawable.img_the_mountain,
-                6.4);
-
-        movieRepository.insertMovies(mRealm,
-                mResourceProvider.getString(R.string.txt_harry_potter),
-                mResourceProvider.getString(R.string.txt_harry_potter_description),
-                mResourceProvider.getString(R.string.txt_2014),
-                R.drawable.img_harry_poter,
-                7.9);
-
-        movieRepository.insertMovies(mRealm,
-                mResourceProvider.getString(R.string.txt_xen),
-                mResourceProvider.getString(R.string.txt_xmen_description),
-                mResourceProvider.getString(R.string.txt_2014),
-                R.drawable.img_xmen,
-                8.0);
-
-        movieRepository.insertMovies(mRealm,
-                mResourceProvider.getString(R.string.txt_john_wick),
-                mResourceProvider.getString(R.string.txt_john_wick_description),
-                mResourceProvider.getString(R.string.txt_2014),
-                R.drawable.img_john_wick,
-                7.3);
-
-    }
 
     public RealmResults<Movie> getALlMovies() {
-        return movieRepository.getAllMovies(mRealm);
+        return mMovieRepository.getAllMovies(mRealm);
     }
 
     public RealmResults<Movie> getALlMoviesSortedByHighest() {
-        return movieRepository.getMoviesSortedByHighest(mRealm);
+        return mMovieRepository.getMoviesSortedByHighest(mRealm);
     }
 
     public RealmResults<Movie> getALlMoviesSortedByLowest() {
-        return movieRepository.getMoviesSortedByLowest(mRealm);
+        return mMovieRepository.getMoviesSortedByLowest(mRealm);
     }
 
     public void updateUserRate(String id, float rating) {
-        movieRepository.updateUserRate(mRealm, id, rating);
+        mMovieRepository.updateUserRate(mRealm, id, rating);
     }
 
     public void startRandomRating() {
-        getRandom();
-    }
-
-    private void getRandom() {
         Observable.fromCallable(() -> {
             Realm realm = Realm.getDefaultInstance();
-            return Utils.getRandomRates(movieRepository.getMoviesSize(realm));
+            return Utils.getRandomRates(mMovieRepository.getMoviesSize(realm));
         }).doOnNext(doubles -> {
             timeDelay = Utils.getRandomDelay();
             if (mShowToastListener != null) {
                 mShowToastListener.showToast(
                         String.format(mResourceProvider.getString(R.string.txt_toast_delay),
                                 Utils.getMinutesSec(timeDelay)));
-                Log.e("Toast", String.format(mResourceProvider.getString(R.string.txt_toast_delay),
-                        Utils.getMinutesSec(timeDelay)));
+
             }
         }).repeatWhen(observable -> {
             return observable.delay(timeDelay, TimeUnit.SECONDS);
@@ -157,15 +91,13 @@ public class MainActivityViewModel extends ViewModel {
         return new Observer<double[]>() {
             @Override
             public void onSubscribe(Disposable d) {
-                Log.e("Radnom", "onSubscribe");
                 disposable = d;
             }
 
             @Override
             public void onNext(double[] rates) {
-                Log.e("Radnom", rates.length + "");
                 Realm realm = Realm.getDefaultInstance();
-                movieRepository.updateMoviesRate(realm, rates);
+                mMovieRepository.updateMoviesRate(realm, rates);
             }
 
             @Override
@@ -186,4 +118,78 @@ public class MainActivityViewModel extends ViewModel {
         if (disposable != null)
             disposable.dispose();
     }
+
+    private void initDBWithData() {
+
+        mMovieRepository.insertMovies(mRealm,
+                mResourceProvider.getString(R.string.txt_deadpool),
+                mResourceProvider.getString(R.string.txt_dead_pool_description),
+                mResourceProvider.getString(R.string.txt_2016),
+                R.drawable.img_dead_bool,
+                8.0);
+
+        mMovieRepository.insertMovies(mRealm,
+                mResourceProvider.getString(R.string.txt_home_alone),
+                mResourceProvider.getString(R.string.txt_home_alone_description),
+                mResourceProvider.getString(R.string.txt_1990),
+                R.drawable.img_home_alone,
+                7.5);
+        mMovieRepository.insertMovies(mRealm,
+                mResourceProvider.getString(R.string.txt_incredible),
+                mResourceProvider.getString(R.string.txt_incredible_description),
+                mResourceProvider.getString(R.string.txt_2018),
+                R.drawable.img_incredible,
+                7.8);
+
+        mMovieRepository.insertMovies(mRealm,
+                mResourceProvider.getString(R.string.txt_coco),
+                mResourceProvider.getString(R.string.txt_coco_description),
+                mResourceProvider.getString(R.string.txt_2017),
+                R.drawable.img_coco,
+                8.4);
+
+        mMovieRepository.insertMovies(mRealm,
+                mResourceProvider.getString(R.string.txt_the_greatest),
+                mResourceProvider.getString(R.string.txt_the_greatest_description),
+                mResourceProvider.getString(R.string.txt_2017),
+                R.drawable.img_the_greates,
+                7.7);
+
+        mMovieRepository.insertMovies(mRealm,
+                mResourceProvider.getString(R.string.txt_the_mountin),
+                mResourceProvider.getString(R.string.txt_the_mountin_description),
+                mResourceProvider.getString(R.string.txt_2017),
+                R.drawable.img_the_mountain,
+                6.4);
+
+        mMovieRepository.insertMovies(mRealm,
+                mResourceProvider.getString(R.string.txt_harry_potter),
+                mResourceProvider.getString(R.string.txt_harry_potter_description),
+                mResourceProvider.getString(R.string.txt_2014),
+                R.drawable.img_harry_poter,
+                7.9);
+
+        mMovieRepository.insertMovies(mRealm,
+                mResourceProvider.getString(R.string.txt_xen),
+                mResourceProvider.getString(R.string.txt_xmen_description),
+                mResourceProvider.getString(R.string.txt_2014),
+                R.drawable.img_xmen,
+                8.0);
+
+        mMovieRepository.insertMovies(mRealm,
+                mResourceProvider.getString(R.string.txt_john_wick),
+                mResourceProvider.getString(R.string.txt_john_wick_description),
+                mResourceProvider.getString(R.string.txt_2014),
+                R.drawable.img_john_wick,
+                7.3);
+
+        mMovieRepository.insertMovies(mRealm,
+                mResourceProvider.getString(R.string.txt_captain_america),
+                mResourceProvider.getString(R.string.txt_captain_america_description),
+                mResourceProvider.getString(R.string.txt_2011),
+                R.drawable.img_captin_america,
+                6.9);
+
+    }
+
 }
