@@ -1,11 +1,20 @@
 package com.sattar.myfavorites.ViewModels;
 
+import android.util.Log;
+
 import com.sattar.myfavorites.Helpers.ResourceProvider;
+import com.sattar.myfavorites.Helpers.Utils;
 import com.sattar.myfavorites.Models.Movie;
 import com.sattar.myfavorites.R;
 import com.sattar.myfavorites.Repositories.MovieRepository;
 
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
 import androidx.lifecycle.ViewModel;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -17,6 +26,7 @@ public class MainActivityViewModel extends ViewModel {
     private MovieRepository movieRepository;
     private Realm mRealm;
     private ResourceProvider mResourceProvider;
+    private Disposable disposable;
 
     public MainActivityViewModel() {
         if (mRealm != null)
@@ -114,11 +124,66 @@ public class MainActivityViewModel extends ViewModel {
         movieRepository.updateUserRate(mRealm, id, rating);
     }
 
-    public void startRandomRating(){
-
+    public void startRandomRating() {
+        getRandom();
     }
 
-    public void stopRandomRating(){
+    private void getRandom() {
+        Observable.fromCallable(() -> Utils.getRandomRates(10))
+                .repeatWhen(observable -> {
 
+                    Log.e("RX java", "apply ");
+                    int timeDelay = Utils.getRandomDelay();
+                    Log.e("RX java", "timeDelay " + timeDelay);
+
+                    return observable.delay(timeDelay, TimeUnit.SECONDS);
+                })
+                .subscribe(getObserver());
+    }
+
+    void generateRandomNumber() {
+        Random random = new Random();
+//        Observable
+//                .fromCallable(() -> Utils::getRandomRate ())
+//                .repeat()
+//                .map(rnd -> {
+//                    // do something with the random number
+//                    return rnd * 2;
+//                })
+//                .take(10)
+//                .subscribe(getObserver());
+    }
+
+    Observer getObserver() {
+        return new Observer<double[]>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                Log.e("Radnom", "onSubscribe");
+                disposable = d;
+            }
+
+            @Override
+            public void onNext(double[] rates) {
+                Log.e("Radnom", rates.length + "");
+                movieRepository.updateMoviesRate(rates);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("Radnom", "error " + e.getMessage());
+
+            }
+
+            @Override
+            public void onComplete() {
+                Log.e("Radnom", "onComplete");
+
+            }
+        };
+    }
+
+    public void stopRandomRating() {
+        if (disposable != null)
+            disposable.dispose();
     }
 }

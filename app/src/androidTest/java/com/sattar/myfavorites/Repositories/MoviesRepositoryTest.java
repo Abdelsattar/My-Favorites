@@ -53,7 +53,8 @@ public class MoviesRepositoryTest {
                 testRealm,
                 "X-Men",
                 "a science fiction movie",
-                "url",
+                "2019",
+                555,
                 8.6);
 
         //verify that the movies already inserted
@@ -138,8 +139,8 @@ public class MoviesRepositoryTest {
         });
         List<Movie> movies = repository.getMoviesSortedByHighest(testRealm);
 
-        assertEquals(movies.get(0),movie1);
-        assertEquals(movies.get(1),movie2);
+        assertEquals(movies.get(0), movie1);
+        assertEquals(movies.get(1), movie2);
     }
 
     @Test
@@ -160,8 +161,8 @@ public class MoviesRepositoryTest {
         });
         List<Movie> movies = repository.getMoviesSortedByLowest(testRealm);
 
-        assertEquals(movies.get(0),movie1);
-        assertEquals(movies.get(1),movie2);
+        assertEquals(movies.get(0), movie1);
+        assertEquals(movies.get(1), movie2);
     }
 
     @Test
@@ -175,8 +176,36 @@ public class MoviesRepositoryTest {
             movie1.setRate(7);
 
         });
-       repository.updateUserRate(testRealm,movie1.getId(), (float) 8.5);
-       assertEquals(movie1.getCurrentUserRate(), Float.valueOf("8.5"));
-       assertEquals(movie1.getRate(),((8.5+7)/2),.1);
+        repository.updateUserRate(testRealm, movie1.getId(), (float) 8.5);
+        assertEquals(movie1.getCurrentUserRate(), Float.valueOf("8.5"));
+        assertEquals(movie1.getRate(), ((8.5 + 7) / 2), .1);
     }
+
+    @Test
+    public void updateMoviesRate(){
+        testRealm.executeTransaction(realm -> {
+            movie1 = testRealm.createObject(Movie.class, Utils.generateUID());
+            movie1.setName("X-Men");
+            movie1.setDescription("a science fiction movie");
+            movie1.setImagePath("url");
+            movie1.setRate(7);
+
+            movie1 = testRealm.createObject(Movie.class, Utils.generateUID());
+            movie1.setName("X-Men");
+            movie1.setDescription("a science fiction movie");
+            movie1.setImagePath("url");
+            movie1.setRate(10);
+
+        });
+        double [] rates = new double[2];
+        rates[0] = 7.5;
+        rates[1] = 8.6;
+
+        repository.updateMoviesRate(rates);
+        assertEquals(movie1.getRate(), rates[0], .1);
+        assertEquals(movie2.getRate(), rates[1], .1);
+
+
+    }
+
 }

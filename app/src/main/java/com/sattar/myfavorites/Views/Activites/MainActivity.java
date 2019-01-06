@@ -117,11 +117,11 @@ public class MainActivity extends AppCompatActivity {
                 //your code here
 
                 if (isRandomRatingWorking()) {
-                    randomMenuItem.setTitle(getString(R.string.txt_start_random_rating));
-                    viewModel.startRandomRating();
-                } else {
-                    randomMenuItem.setTitle(getString(R.string.txt_stop_random_rating));
                     viewModel.stopRandomRating();
+                    randomMenuItem.setTitle(getString(R.string.txt_start_random_rating));
+                } else {
+                    viewModel.startRandomRating();
+                    randomMenuItem.setTitle(getString(R.string.txt_stop_random_rating));
                 }
                 changeRandomRating();
                 return true;

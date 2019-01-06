@@ -61,4 +61,7 @@ public class MovieRepository {
     }
 
 
+    public void updateMoviesRate(double[] rates) {
+
+    }
 }
