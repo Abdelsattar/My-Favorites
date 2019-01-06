@@ -68,9 +68,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.init(app.getResourceProvider());
         currentShownMovies = viewModel.getALlMovies();
         cLickListener = this::showPopUpMenu;
-        if (currentShownMovies != null && !currentShownMovies.isEmpty()) {
-            currentShownMovies.addChangeListener((movies, changeSet) -> updateRecyclerViewData());
-        }
+
         setUpMoviesRecyclerViewAdapter();
         updateRecyclerViewData();
     }
@@ -83,9 +81,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void updateRecyclerViewData() {
-        if (currentShownMovies != null)
+        if (currentShownMovies != null) {
             recyclerViewAdapter.updateData(currentShownMovies);
-        else
+            currentShownMovies.addChangeListener((movies, changeSet) -> updateRecyclerViewData());
+        } else
             recyclerViewAdapter.updateData(new ArrayList<>());
     }
 
